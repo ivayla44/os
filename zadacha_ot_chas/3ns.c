@@ -3,9 +3,11 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-int to3ns(int num) {
+int to3ns(int num)
+{
     int res = 0, temp;
-    for(int i = 1; num > 0; i *= 10) {
+    for(int i = 1; num > 0; i *= 10)
+    {
         temp = num % 3;
         num /= 3;
         res += temp * i;
@@ -24,24 +26,28 @@ void tnsFile(int fd, int num) {
     int rem;
     for(int i = 0; i < num; i++) {
         int res = to3ns(i);
-        char itos[9] = {'0', '0', '0', '0', '0', '0', '0' ,'0', '0'};
-        for(int j = 8; res > 0; j--) {
+        char itos[12] = {'0', '0', '0', '0', '0', '0', '0' ,'0', '0', '0', '0', '0'};
+//        char itos[9] = {'0'};
+
+        for(int j = 11; res > 0; j--) {
             rem = res % 10;
             res /= 10;
             itos[j] = rem + '0';
         }
-        check_write = write(fd, itos, 9);
+        check_write = write(fd, itos, 12);
         check_write = write(fd, "\n", 1);
     }
 }
 
 int main() {
+//    int fd = open("file", O_WRONLY | O_TRUNC);
     int fd = open("file", O_WRONLY | O_TRUNC);
-    if(fd == -1) {
+    if(fd == -1){
         printf("Fd error.");
         return -1;
     }
     all3ns(17);
-    tnsFile(fd, 19683); // 3^9
+//    tnsFile(fd, 19683); // 3^9
+    tnsFile(fd, 531441); // 3^12
     close(fd);
 }
