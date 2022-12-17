@@ -21,10 +21,7 @@ void cpy_string(int fd1_1, int fd1_2, int fd2_1, int fd2_2) {
             check_write = write(fd2_2, &start2, sizeof(uint16_t));
             check_write = write(fd2_2, &len, sizeof(uint8_t));
             check_write = write(fd2_2, &resv, sizeof(uint8_t));
-            if(!check_write) {
-                printf("Write error.");
-                break;
-            }
+            if(!check_write) break;
             start2 += (uint16_t)len;
         }
     }
