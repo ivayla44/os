@@ -3,10 +3,10 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-int to3ns(int num)
+ uint64_t to3ns(int num)
 {
-    int res = 0, temp;
-    for(int i = 1; num > 0; i *= 10)
+    uint64_t res = 0, temp;
+    for(uint64_t i = 1; num > 0; i *= 10)
     {
         temp = num % 3;
         num /= 3;
@@ -15,20 +15,18 @@ int to3ns(int num)
     return res;
 }
 
-void all3ns(int num) {
+void all3ns(int num){
     for(int i = 0; i < num; i++) {
-        printf("%d\n", to3ns(i));
+        printf("%llu\n", to3ns(i));
     }
 }
 
 void tnsFile(int fd, int num) {
     int check_write = 1;
-    int rem;
+    uint64_t rem;
     for(int i = 0; i < num; i++) {
-        int res = to3ns(i);
+        uint64_t res = to3ns(i);
         char itos[12] = {'0', '0', '0', '0', '0', '0', '0' ,'0', '0', '0', '0', '0'};
-//        char itos[9] = {'0'};
-
         for(int j = 11; res > 0; j--) {
             rem = res % 10;
             res /= 10;
