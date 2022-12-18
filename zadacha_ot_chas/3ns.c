@@ -6,6 +6,8 @@
  uint64_t to3ns(int num)
 {
     uint64_t res = 0, temp;
+// REMARK: I have to say, I find the idea awesome.
+// Mostly because I did not think of it myself and it's better than my approach
     for(uint64_t i = 1; num > 0; i *= 10)
     {
         temp = num % 3;
