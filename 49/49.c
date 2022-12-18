@@ -12,6 +12,7 @@ void frompatch(int fd1, int fd2, int fdpatch) {
         check_read = read(fd1, &new, sizeof(uint8_t));
         if(!check_read)break;
         if(start == start2) {
+// REMARK: Smart.
             check_lseek = lseek(fdpatch, sizeof(uint8_t), SEEK_CUR);
             check_read = read(fdpatch, &new, sizeof(uint8_t));
             check_read = read(fdpatch, &start, sizeof(uint16_t));

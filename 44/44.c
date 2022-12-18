@@ -5,6 +5,8 @@
 
 void pr_uint32(int fd1, int fd2, int fd3) {
     int size = sizeof(uint32_t), check_read = 1, check_write = 1, check_lseek = 1;
+// REMARK: Please, for the love of god, choose better variable names!
+// I know "it works like this", but it makes the reader's job infinitely easier.
     uint32_t x, y, z;
     while(check_read) {
         check_read = read(fd1, &x, size);
@@ -26,6 +28,7 @@ int main(int argc, char* argv[]) {
     int fd1 = open(f1, O_RDONLY);
     int fd2 = open(f2, O_RDONLY);
     int fd3 = open(f3, O_WRONLY);
+// REMARK: My god, write it as a block! We talked about this! :/
     if(fd1 == -1 || fd2 == -1 || fd3 == -1) printf("Fd error."), exit(1);
 
     pr_uint32(fd1, fd2, fd3);
