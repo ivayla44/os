@@ -5,10 +5,10 @@
 #include <string.h>
 
 char* readline(int fd) {
-    int chunk = 16, check_read = 0, chunk_num = 0;
+    int chunk = 16, check_read = 1, chunk_num = 0;
     char* line = malloc(chunk);
     char* read_buf = malloc(chunk);
-    while(1) {
+    while(check_read) {
         check_read = read(fd, read_buf, chunk);
         if(check_read == -1) {
             free(line);
@@ -16,26 +16,23 @@ char* readline(int fd) {
             exit(1);
         }
         if(!check_read) {
-            printf("wtf\n");
             break;
         }
-
 
         for(int i = 0; i < check_read; i++) {
             if(read_buf[i] != '\n') {
                 line[chunk*chunk_num + i] = read_buf[i];
             }
             else {
-
-                int pos = lseek(fd, i - check_read + 1, SEEK_CUR);
-                printf("%d %d %d\n", i, chunk, pos);
-                goto test;
+                lseek(fd, i - chunk + 1, SEEK_CUR);
+                check_read = 0;
+                break;
             }
         }
         line = realloc(line, chunk*(chunk_num+2));
         chunk_num++;
     }
-    test:
+    free(read_buf);
     return line;
 }
 
