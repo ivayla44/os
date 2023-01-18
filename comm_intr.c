@@ -27,7 +27,7 @@ char* readline(int fd) {
             }
             else {
 
-                int pos = lseek(fd, i - chunk + 1, SEEK_CUR);
+                int pos = lseek(fd, i - check_read + 1, SEEK_CUR);
                 printf("%d %d %d\n", i, chunk, pos);
                 goto test;
             }
