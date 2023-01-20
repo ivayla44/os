@@ -8,6 +8,8 @@ int str_len(const char* str) {
 
 int get_lines(int fd) {
     // We know each row ends with a "\n".
+    // If it starts from 0 here, then in the main func, the for should look like (; i <= get_lines;) in order to get the last line. 
+    // A lot of issues could arise in cases of wrong input, two or more spaces for example, empty lines and so on...
     int ch_sz = 32, check_read = 1, res = 0;
     char chunk[ch_sz];
     while (1) {
@@ -141,7 +143,7 @@ int main(int argc, char* argv[]) {
 
     int pid, status, check_wait;
 
-    for(int i = 0; i < num_lines; i++) {
+    for(int i = 0; i <= num_lines; i++) {
         pid = fork();
         if(pid == 0) {
             line = readline(fd);
