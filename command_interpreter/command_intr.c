@@ -7,7 +7,8 @@ int str_len(const char* str) {
 }
 
 int get_lines(int fd) {
-    int ch_sz = 32, check_read = 1, res = 1;
+    // We know each row ends with a "\n".
+    int ch_sz = 32, check_read = 1, res = 0;
     char chunk[ch_sz];
     while (1) {
         check_read = err_read(fd, &chunk, ch_sz);
@@ -146,7 +147,7 @@ int main(int argc, char* argv[]) {
             line = readline(fd);
             parsed = parseline(line);
             printf("%s\n", parsed[0]);
-
+            printf("Kid ID: %d\n", i+1);
             execvp(parsed[0], parsed);
 
             break;
