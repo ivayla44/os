@@ -77,7 +77,7 @@ char* readline(int fd) {
 
 char** parseline(char* line) {
     int line_sz = str_len(line);
-    char** parsed = malloc(4*sizeof(char*));
+    char** parsed = malloc(sizeof(char*));
     if(!parsed) {
         printf("Malloc error.");
         exit(6);
