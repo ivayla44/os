@@ -90,7 +90,7 @@ char** parseline(char* line) {
                 printf("Malloc error.");
                 exit(6);
             }
-            printf("word_num %d word_sz+1 %d\n", word_num, word_sz+1);
+//            printf("word_num %d word_sz+1 %d\n", word_num, word_sz+1);
             if(!parsed[word_num]) {
                 printf("Malloc error.");
                 exit(6);
@@ -99,16 +99,17 @@ char** parseline(char* line) {
             word_num++;
         }
     }
-    for(int word = 0, symbol_in_line = 0, symbol_in_parsed = 0; symbol_in_line < line_sz; symbol_in_line++, symbol_in_parsed++) {
+    for(int word = 0, symbol_in_line = 0, symbol_in_parsed = 0; symbol_in_line <= line_sz; symbol_in_line++, symbol_in_parsed++) {
         if(line[symbol_in_line] != ' ') {
 // symbol_in_parsed?
              parsed[word][symbol_in_parsed] = line[symbol_in_line];
-             printf("word %d symbol %c\n", word, parsed[word][symbol_in_parsed]);
+//             printf("word %d symbol %c\n", word, parsed[word][symbol_in_parsed]);
         }
         else {
             // word + null?
             parsed[word][symbol_in_parsed] = '\0';
-            symbol_in_parsed = 0;
+//            printf("%s\n", parsed[word]);
+            symbol_in_parsed = -1;
             word++;
         }
     }
@@ -133,8 +134,11 @@ int main(int argc, char* argv[]) {
 
     char** parsed;
 
-    line = readline(fd);
-    printf("%s\n", line);
-    parsed = parseline(line);
-    printf("%s a%s b%s v%s \n", parsed[0], parsed[1], parsed[2], parsed[3]);
+    for(int i = 0; i < num_lines; i++) {
+        line = readline(fd);
+//        printf("%s\n", line);
+        parsed = parseline(line);
+        printf("%s %s %s %s \n", parsed[0], parsed[1], parsed[2], parsed[3]);
+    }
+
 }
