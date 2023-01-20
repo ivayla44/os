@@ -79,46 +79,50 @@ char** parseline(char* line) {
     int line_sz = str_len(line);
     char** parsed = malloc(sizeof(char*));
     if(!parsed) {
+        free(line);
         printf("Malloc error.");
         exit(6);
     }
-    for(int word_sz = 0, symbol = 0, word_num = 0; symbol <= line_sz; symbol++, word_sz++) {
+    for(int word_sz = 0, symbol = 0, word_num = 0; symbol <= line_sz; symbol++) {
         if(line[symbol] == ' ' || line[symbol] == '\0') {
             parsed[word_num] = malloc(word_sz + 1);
             parsed = realloc(parsed, sizeof(char*) * (word_num + 2));
             if(!parsed) {
+                free(line);
                 printf("Malloc error.");
                 exit(6);
             }
-//            printf("word_num %d word_sz+1 %d\n", word_num, word_sz+1);
             if(!parsed[word_num]) {
+                for(int i = 0; i < word_num; i++) {
+                    free(parsed[i]);
+                }
+                free(parsed);
+                free(line);
                 printf("Malloc error.");
                 exit(6);
             }
-            word_sz = -1; // :/
+            word_sz = 0; // :/
             word_num++;
         }
+        word_sz++;
     }
-    for(int word = 0, symbol_in_line = 0, symbol_in_parsed = 0; symbol_in_line <= line_sz; symbol_in_line++, symbol_in_parsed++) {
+    for(int word = 0, symbol_in_line = 0, symbol_in_parsed = 0; symbol_in_line <= line_sz; symbol_in_line++) {
         if(line[symbol_in_line] != ' ') {
-// symbol_in_parsed?
              parsed[word][symbol_in_parsed] = line[symbol_in_line];
-//             printf("word %d symbol %c\n", word, parsed[word][symbol_in_parsed]);
+             symbol_in_parsed++;
         }
         else {
-            // word + null?
             parsed[word][symbol_in_parsed] = '\0';
-//            printf("%s\n", parsed[word]);
-            symbol_in_parsed = -1;
+            symbol_in_parsed = 0;
             word++;
         }
     }
+    free(line);
     return parsed;
 }
 
 int main(int argc, char* argv[]) {
-    int fd = err_open("file", O_RDONLY);
-
+    int fd = err_open(argv[1], O_RDONLY);
     if(fd == -1) {
         exit(8);
     }
@@ -134,11 +138,32 @@ int main(int argc, char* argv[]) {
 
     char** parsed;
 
-    for(int i = 0; i < num_lines; i++) {
-        line = readline(fd);
-//        printf("%s\n", line);
-        parsed = parseline(line);
-        printf("%s %s %s %s \n", parsed[0], parsed[1], parsed[2], parsed[3]);
-    }
+    int pid, status, check_wait;
 
+    for(int i = 0; i < num_lines; i++) {
+        pid = fork();
+        if(pid == 0) {
+            line = readline(fd);
+            parsed = parseline(line);
+            printf("%s\n", parsed[0]);
+
+            execvp(parsed[0], parsed);
+
+            break;
+        }
+        else {
+           check_wait = wait(&status);
+           if(check_wait == -1) {
+               printf("Wait error.");
+               exit(11);
+           }
+        }
+        if(WIFEXITED(status) == 1) {
+            printf("Exit status: %d\n", WEXITSTATUS(status));
+        }
+        else if(!WIFEXITED(status)){
+            printf("Process terminated.\n");
+            exit(10);
+        }
+    }
 }
