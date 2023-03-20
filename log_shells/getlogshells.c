@@ -112,14 +112,6 @@ void exec_command(char** command, int* stdin_pipe, int* stdout_pipe, int** pipes
     int pid = fork();
 
     if(pid == 0) {
-
-//        if(stdin_pipe != NULL) {
-//            printf("stdin pipe: %d %d\n", stdin_pipe[0], stdin_pipe[1]);
-//        }
-//        if(stdout_pipe != NULL) {
-//            printf("stdout pipe: %d %d\n", stdout_pipe[0], stdout_pipe[1]);
-//        }
-
         int check_dup;
 
         if(stdin_pipe != NULL) {
@@ -152,15 +144,9 @@ void exec_command(char** command, int* stdin_pipe, int* stdout_pipe, int** pipes
         }
     }
 
-//    ZASHTO RABOTI TAKA???
     if(stdin_pipe) {
         close_pipe(stdin_pipe);
     }
-
-//    WTF?!?!
-//    if(stdout_pipe) {
-//        close_pipe(stdout_pipe);
-//    }
 
     int check_wait = err_waitpid(pid, NULL, 0);
     if(check_wait == -1) exit(9);
@@ -199,6 +185,12 @@ int main() {
         char* line = commands[curr_command];
         printf("command : %s\n", line);
         char** command = parseline(line);
+
+        if(!command) {
+            printf("Line couldn't be parsed.\n");
+            close_pipes(pipes);
+            exit(9);
+        }
 
         exec_command(command, pipes[curr_command], pipes[curr_command + 1], pipes);
     }
