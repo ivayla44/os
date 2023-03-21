@@ -195,6 +195,14 @@ int main() {
 
         exec_command(command_parsed, pipes[curr_command], pipes[curr_command + 1], pipes);
 
+        for(int j = 0;; j++) {
+            if(command_parsed[j]) {
+                free(command_parsed[j]);
+            }
+            else {
+                break;
+            }
+        }
         free(command_parsed);
     }
 
