@@ -154,6 +154,7 @@ void exec_command(char** command, int* stdin_pipe, int* stdout_pipe, int** pipes
 
 int main() {
     char* commands[] = {"cut -f 7 -d : /etc/passwd", "sort", "uniq", "wc -l"};
+    char** command_parsed;
 
     int child1_p[2];
     int check_pipe = pipe(child1_p);
@@ -184,15 +185,17 @@ int main() {
     for(int curr_command = 0; curr_command < 4; curr_command++) {
         char* line = commands[curr_command];
         printf("command : %s\n", line);
-        char** command = parseline(line);
+        command_parsed = parseline(line);
 
-        if(!command) {
+        if(!command_parsed) {
             printf("Line couldn't be parsed.\n");
             close_pipes(pipes);
             exit(9);
         }
 
-        exec_command(command, pipes[curr_command], pipes[curr_command + 1], pipes);
+        exec_command(command_parsed, pipes[curr_command], pipes[curr_command + 1], pipes);
+
+        free(command_parsed);
     }
 
     close_pipes(pipes);
