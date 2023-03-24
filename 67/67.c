@@ -5,6 +5,7 @@ int subst_bytes(int input_fd, int output_fd) {
     int check_read, check_write;
 
     int chunk_sz = 32;
+    // Unsigned za da moje vsichki stoinost
     unsigned char buf;
     unsigned char chunk[chunk_sz];
 
@@ -20,10 +21,12 @@ int subst_bytes(int input_fd, int output_fd) {
         }
 
         for(int read = 0; read < check_read; read++) {
-
+            // Propuska 55
             if(chunk[read] == 0x55) {
                 continue;
             }
+            // Propuska 7d i xor-va sledvashtoto
+            // Ako 7d e posledno go priema za 7d
             else if(chunk[read] == 0x7D && read+1 != chunk_sz) {
                 buf = chunk[read+1] ^ 0x20;
                 read++;
@@ -71,6 +74,10 @@ int main(int argc, char* argv[]) {
 
         close_pipe(p);
 
+        // Poradi nqkakva bezizvestna prichina <execlp> ne raboti. Bukvalno ne znam zashto ama trqbva da razbera che mi e tupo :(
+        // Uj go vikam kakto trqbva ama neshto si pravi topki s men (rechnik)
+        // To i git si pravi qko tashaci
+        // Sigurno az sum prosta i za dvete ama zasega obvinqvam vselenata, az nikoga ne sum vinovna (veroqtno sum)
         char* command[3] = {"cat", argv[1], NULL};
         check_exec = execvp(command[0], command);
         if(check_exec == -1) {
