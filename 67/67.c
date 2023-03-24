@@ -86,4 +86,7 @@ int main(int argc, char* argv[]) {
         close(fd_out);
         exit(5);
     }
+    
+    close_pipe(p);
+    close(fd_out);
 }
