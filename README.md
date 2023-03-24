@@ -1,4 +1,3 @@
 # os
 
-PS. Nishto nqma error handling :/
-... for now, soon to be added :))
+Veche ima error handling :) (a dano i da bachka)
