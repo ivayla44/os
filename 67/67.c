@@ -75,11 +75,20 @@ int main(int argc, char* argv[]) {
         close_pipe(p);
 
         // Poradi nqkakva bezizvestna prichina <execlp> ne raboti. Bukvalno ne znam zashto ama trqbva da razbera che mi e tupo :(
+	// kpacu: pitai :)
         // Uj go vikam kakto trqbva ama neshto si pravi topki s men (rechnik)
         // To i git si pravi qko tashaci
+	// kpacu: rechnik? :)
         // Sigurno az sum prosta i za dvete ama zasega obvinqvam vselenata, az nikoga ne sum vinovna (veroqtno sum)
-        char* command[3] = {"cat", argv[1], NULL};
-        check_exec = execvp(command[0], command);
+	// kpacu: Ne si prosta, spodelqm mnenieto ti za vselenata.
+
+	// marker start
+        // char* command[3] = {"cat", argv[1], NULL};
+        // check_exec = execvp(command[0], command);
+	// marker end
+	// marker start
+	check_exec = execlp("cat", "cat", argv[1], NULL);
+	//marker end
         if(check_exec == -1) {
             printf("Exec error.\n");
             exit(3);
