@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for cmlarg in $@
+do
+	(( res += cmlarg ))
+done
+echo $res
+read -p "Enter value to multiply by: " input
+echo $(( input * res ))

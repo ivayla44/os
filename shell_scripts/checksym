@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if $(echo "$1" | grep -i -q '^[a-z 0-9]*$')
+then echo "String contains only numbers and letters."
+else echo "String contains special characters."
+fi

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+read -p "Enter the full path to a dir: " path
+echo $(find $path -type f -o -type d | wc -l)
