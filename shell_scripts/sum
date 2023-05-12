@@ -2,7 +2,10 @@
 
 for cmlarg in $@
 do
+# Kpacu:
+# :/
 	(( res += cmlarg ))
+# res="$(( res + cmlarg))"
 done
 echo $res
 read -p "Enter value to multiply by: " input
