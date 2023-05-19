@@ -1,0 +1,103 @@
+#!/bin/bash
+
+if [ $# -ne 3 ]; then
+	echo "Wrong input! The expected input is: <directory of student answers> <file with correct answers> <directory for student grades>."
+	exit 1
+fi
+
+
+if [ ! -d $1 ]; then
+	echo "Wrong input! The first argument should be a directory."
+	exit 2
+fi
+if [ ! -r $1 ]; then
+	echo "The directory with student answers can't be accessed."
+	exit 3
+fi
+if [ $(find $1 | wc -l) -ne 26 ]; then
+	echo "The directory with student answers should have exactly 25 files."
+	exit 4
+fi
+
+
+for i in {1..25}
+do
+	if [ ! -f $1$i ]; then
+		echo "Filenames in the student answers directory should be 1 through 25."
+		exit 5
+	fi
+done
+
+student_answers=$1*
+
+for file in $student_answers
+do
+	if [ -r file ]; then
+		echo "File cannot be accessed."
+		exit 6
+	fi
+	if [ $(cat $file | wc -l) -ne 25 ]; then
+		echo "All files in the student answers directory should have exactly 25 lines."
+		exit 7
+	fi
+	if [ $(grep '^[ABCD]$' $file | wc -l) -ne 25 ]; then
+		echo "All files in the student answers directory should only contain lines with content A, B, C or D."
+		exit 8
+	fi
+done
+
+
+if [ "$(stat -c %F $2)" != "regular file" ]; then
+	echo "The second argument should be a file with the correct answers."
+	exit 9
+fi
+if [ ! -r $2 ]; then
+	echo "The correct answers file cannot be accessed."
+	exit 10
+fi
+if [ $(cat $2 | wc -l) -ne 25 ]; then
+	echo "The correct answers file should contain exactly 25 lines."
+	exit 11
+fi
+if [ $(grep '^[ABCD]$' $2 | wc -l) -ne 25 ]; then
+	echo "The correct answers file should only contain lines with content A, B, C or D."
+	exit 12
+fi
+
+
+if [ ! -d $3 ]; then
+	echo "The third argument should be a directory."
+	exit 13
+fi
+if [ $(find $3 | wc -l) -ne 1 ]; then
+	echo "The directory for the student grades should be empty."
+	exit 14
+fi
+if [ ! -w $3 ]; then
+	echo "Permission to create files should be granted for the student grades directory."
+	echo 15
+fi
+
+
+for student_number in {1..25}; do
+	correct_answ=0
+	for line in {1..25}; do
+		if [ $(head -n $line $1$student_number | tail -n 1) == $(head -n $line $2 | tail -n 1) ]; then
+			correct_answ=$(( correct_answ + 1 ))
+		fi
+	done
+	grade=0
+	if [[ $correct_answ -ge 0 && $correct_answ -le 13 ]]; then
+		grade=2
+	elif [[ $correct_answ -ge 14 && $correct_answ -le 16 ]]; then
+		grade=3
+	elif [[ $correct_answ -ge 17 && $correct_answ -le 19 ]]; then
+		grade=4
+	elif [[ $correct_answ -ge 20 && $correct_answ -le 22 ]]; then
+		grade=5
+	else
+		grade=6
+	fi
+	echo $grade > $3$student_number
+done
+
