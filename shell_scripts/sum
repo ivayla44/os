@@ -2,7 +2,11 @@
 
 for cmlarg in $@
 do
+# Kpacu:
+# :/
+# iva: zashto :/ (legit pitam)
 	(( res += cmlarg ))
+# res="$(( res + cmlarg))"
 done
 echo $res
 read -p "Enter value to multiply by: " input

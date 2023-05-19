@@ -1,6 +1,14 @@
 #!/bin/bash
 
+# Kpacu:
+# Why the shell substitution?
+# iva: za moe i/ili vashe sujalenie na vseky why question bih kazala "zashtoto taka raboteshe"...
 if $(echo "$1" | grep -i -q '^[a-z 0-9]*$')
+# if echo "$1" | grep -i -q '^[a-z0-9]*$'
+# Also:
+# [a-z0-9]
+# vs
+# [a-z 0-9]
 then echo "String contains only numbers and letters."
 else echo "String contains special characters."
 fi
