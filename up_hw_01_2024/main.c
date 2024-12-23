@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 
 int get_last_digit(int number) {
@@ -46,17 +47,13 @@ uint16_t extract_digits_information(int input) {
     /* The 10 least significant bits will indicate the pressence of a digit, 0 to 9. */
     
     // Edge case, input is 0.
-    
     // iva: could just do-while instead?
-    
-    if (input == 0) {
-        digits_information = extract_last_digit_information(get_last_digit(0));
-    }
-    
-    while ( input > 0 ) {
+    // kpacu: Nice!
+    do {
         digits_information |= extract_last_digit_information(get_last_digit(input));
         input /= 10;
     }
+    while ( input != 0 );
 
     return digits_information;
 }
@@ -71,13 +68,14 @@ int main(int argc, char * argv[]) {
     // Input handled.
 
     // iva: probs just do absolute values; "-1234" and "123" wouldn't return any common digits...
-
-    uint16_t digits_first = extract_digits_information(input_first);
-    uint16_t digits_second = extract_digits_information(intput_second);
+    // kpacu: Oh, what the f...?
+    // kpacu: omg, TIL => 101 % 10 = 1, but -101 % 10 = -1. fml
+    // kpacu: Nice catch.
+    uint16_t digits_first = extract_digits_information(abs(input_first));
+    uint16_t digits_second = extract_digits_information(abs(intput_second));
 
     // 2 bytes beauty tax to avoid:
     // digits_first &= digits_second
-
     // iva: cute :3
     
     uint16_t common_digits = digits_first & digits_second;
