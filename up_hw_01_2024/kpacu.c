@@ -12,12 +12,7 @@ int get_last_digit(int number) {
 }
 
 uint16_t mark_digit(int digit) {
-    uint16_t marker = 1;
-
-    for (int i = 0; i < digit; i++) {
-        marker *= 2;
-    }
-
+    uint16_t marker = 1 << digit;
     return marker;
 }
 
