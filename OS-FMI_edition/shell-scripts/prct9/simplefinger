@@ -1,0 +1,9 @@
+#!/bin/bash
+
+who | while read -r user terminal rest; do
+	fullname=$(grep "^$user:" /etc/passwd | cut -d: -f5 | cut -d, -f1)
+	if [ -z "$fullname" ]; then
+		fullname="$user"
+	fi
+	echo "$user $fullname $rest"
+done	

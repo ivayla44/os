@@ -1,0 +1,7 @@
+#!/bin/bash
+
+pids=$( ps -eo tty,pid,time | awk 'NR > 1 && $1 != "?" && $3 > "00:00:01" { print $2 }' )
+
+for pid in $pids; do
+	kill "$pid"
+done

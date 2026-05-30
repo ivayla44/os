@@ -1,0 +1,8 @@
+#!/bin/bash
+
+read -p "Enter 2 files and output file:" fin1 fin2 fout
+
+cat ${fin1} ${fin2} | sort >>${fout}
+
+wc -l ${fin1} ${fin2} ${fout}
+

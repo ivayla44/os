@@ -1,0 +1,14 @@
+#!/bin/bash
+
+dirstr=$1
+
+if [ ! -d $dirstr ]; then
+	echo "Directory $dirstr not found."
+	exit 1
+fi
+
+for file in $dirstr/*.c; do
+# if no .c files are in dir/ then <file> will expand to "$dirstr/*.c" and gcc will throw an error, this guards no .c files in dir:
+	[ -f $file ] || continue
+	gcc $file -o "$(basename $file .c).exe" &
+done

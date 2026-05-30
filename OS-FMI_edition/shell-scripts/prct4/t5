@@ -1,0 +1,7 @@
+#!/bin/bash
+
+read -p "Enter 2 files to compare: " file1 file2
+
+cmp ${file1} ${file2}
+
+echo $?

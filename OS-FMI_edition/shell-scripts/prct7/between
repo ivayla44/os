@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ $1 -lt $2 ]; then
+	from=$1
+	to=$2
+else
+	from=$2
+	to=$1
+fi
+
+while [ $from -le $to ]; do
+	echo $from
+	from=$(expr $from + 1)
+done

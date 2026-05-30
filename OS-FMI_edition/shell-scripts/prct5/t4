@@ -1,0 +1,7 @@
+#!/bin/bash
+
+filen="$1"
+m=$2
+n=$3
+
+head -n $n $filen | tail -n $m | sort -r

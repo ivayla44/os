@@ -1,0 +1,20 @@
+#!/bin/bash
+
+subdir="$HOME/$1"
+
+if [ ! -d "$subdir" ]; then
+	mkdir "$subdir"
+fi
+
+count=0
+
+
+for file in ./*; do
+	if [ -f "$file" ] && [ -r "$file" ]; then
+		cp "$file" "$subdir"
+	else
+		count=$(expr $count + 1)
+	fi
+done
+
+echo $count

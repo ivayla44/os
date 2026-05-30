@@ -1,0 +1,22 @@
+#!/bin/bash
+
+dir1="$1"
+dir2="$2"
+
+if [ ! -d $dir1 ] || [ ! -d $dir2 ]; then
+	echo "Both command line arguments should be directories."
+	exit 1
+fi
+
+cfiles=$(find $dir1 $dir2 -type f -name "*.c" | wc -l)
+
+if [ $cfiles -gt 20 ]; then
+	outf="cfilenames"
+
+	find $dir1 $dir2 -type f -name "*.c" > $outf
+
+	chmod a=r $outf
+
+else
+	echo "Collective number of .c files in $dir1 and $dir2 is: $cfiles"
+fi

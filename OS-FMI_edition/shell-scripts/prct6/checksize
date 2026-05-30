@@ -1,0 +1,25 @@
+#!/bin/bash
+
+str=$1
+n=$2
+
+# if the task requires searching for dirs with the name str in the whole system:
+#dirs = $(find / -type d -name "$str" 2>/dev/null)
+#if [ -z dirs ]; then
+#	echo "Directories with the name $str do not exist"
+#	exit 0
+#fi
+#
+#for dir in $dirs; do
+#	...
+#done
+
+if [ -d $str ]; then
+	for file in ${str}/*; do
+		if [ -f $file ] && [ $(wc -m < $file) -gt $n ]; then
+			echo $file
+		fi
+	done
+else
+	echo "Directory with the name $str does not exist."
+fi

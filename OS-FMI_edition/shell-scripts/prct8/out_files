@@ -1,0 +1,21 @@
+#!/bin/bash
+
+dir1=$1
+dir2=$2
+
+# could add -maxdepth 1 here:
+ofiles1=$(find $dir1 -type f -name "*.out" | wc -l)
+ofiles2=$(find $dir2 -type f -name "*.out" | wc -l)
+
+if [ $ofiles1 -gt $ofiles2 ]; then
+	subdir="newdir"
+	mkdir -v $subdir
+	
+	for file in $dir1/*; do
+		[ -f $file ] || continue
+
+		if [ -r $file ] && [ -w $file ]; then
+			mv $file $subdir
+		fi
+	done
+fi	

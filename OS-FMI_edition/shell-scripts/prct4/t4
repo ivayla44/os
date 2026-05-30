@@ -1,0 +1,7 @@
+#!/bin/bash
+
+read -p "Enter file name and string:" file str
+
+grep -q ${str} ${file}
+
+echo $?

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+read -p "Enter text file name and numbers m, n where m < n: " file m n
+
+head -n ${n} ${file} | tail -n ${m} | sort -r
+  

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "Hello, ${USER}!"
+echo
+
+date "+DATE: %Y-%m-%d%nTIME: %H:%M:%S"
+echo
+
+echo "Active sessions:"
+who

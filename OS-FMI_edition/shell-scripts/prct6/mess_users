@@ -1,0 +1,11 @@
+#!/bin/bash
+
+read -p "Enter message to be sent to all active users: " msg
+
+for user in $*; do
+	if who | grep "^$user "; then
+		echo $msg | write $user
+	else
+		echo "User $user is not logged on."
+	fi
+done

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+usrn="$1"
+
+while true; do
+	if who | grep -q "^$usrn "; then
+		echo "User $usrn has logged on."
+		exit 0
+	fi
+	sleep 3
+done

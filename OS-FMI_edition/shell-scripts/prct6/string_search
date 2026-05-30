@@ -1,0 +1,8 @@
+#!/bin/bash
+
+read -p "Enter string to search for: " str
+
+for file in $*; do
+	echo "Number of lines in $file which contain $str: "
+	grep "$str" $file | wc -l
+done

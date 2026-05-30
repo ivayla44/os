@@ -1,0 +1,22 @@
+#!/bin/bash
+
+dir=$1
+if [ ! -d "$dir" ]; then
+	echo "$dir is not a directory"
+	exit 1
+fi
+
+read -p "Please enter a filename: " ifile
+if [ ! -f "$ifile" ]; then
+	echo "$ifile is not a regular file"
+	exit 2
+fi
+
+first2=$( head -n 2 "$ifile")
+
+for file in "$dir"/*; do
+	if [ -f "$file" ]; then
+		{ echo "$first2"; tail -n +3 "$file"; } > "$file.tmp"
+		mv "$file.tmp" "$file"
+	fi
+done

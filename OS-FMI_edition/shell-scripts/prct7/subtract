@@ -1,0 +1,10 @@
+#!/bin/bash
+
+n=$1
+m=$2
+
+if [ $n -g $m ]; then
+	echo $(expr $n - $m)
+else
+	echo $(expr $m - $n)
+fi

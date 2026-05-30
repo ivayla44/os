@@ -1,0 +1,5 @@
+#!/bin/bash
+
+usrn="$1"
+
+who | grep "^$usrn" | wc -l
