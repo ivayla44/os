@@ -59,7 +59,7 @@ int cat_to_file(char* file)
         check_rd = read(0, buf, chunk_sz);
         if (check_rd == -1)
         {
-        perror("cat_to_file: read");
+            perror("cat_to_file: read");
             close(fd);
             return EXIT_FAILURE;
         }
@@ -67,7 +67,7 @@ int cat_to_file(char* file)
         check_wr = write(fd, buf, check_rd);
         if (check_wr == -1)
         {
-        perror("cat_to_file: write");
+            perror("cat_to_file: write");
             close(fd);
             return EXIT_FAILURE;
         }
